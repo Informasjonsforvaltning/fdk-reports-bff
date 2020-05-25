@@ -149,7 +149,7 @@ components:
           properties:
             withDistribution:
               type: number
-            publicWihoutDistirbution:
+            publicWithoutDistribution:
               type: number
             nonPublicWithDistribution:
               type: number

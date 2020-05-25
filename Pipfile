@@ -12,6 +12,8 @@ flask-cors = "*"
 flask-restful = "*"
 python-dotenv = "*"
 requests = "*"
+jsonpath-ng = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

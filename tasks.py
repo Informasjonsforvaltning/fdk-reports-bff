@@ -1,7 +1,6 @@
 import os
 import time
 
-import requests
 from invoke import task
 
 pipenv_install = "pipenv install --dev"
@@ -71,11 +70,6 @@ def contract_test(ctx, image="digdir/fdk-report-bff:latest", compose=False, buil
 
 @task
 def update_mock_data(ctx):
-    start_recording_url = "/__admin/recordin/start"
-    stop_recording_url = "/__admin/recordings/stop"
-    target_url_body = {
-        "targetBaseUrl": "https://www.fellesdatakatalog.digdir.no/api"
-    }
 
     mock_url = "http://localhost:8080"
     start_recording_curl = "curl -d '{\"targetBaseUrl\": \"https://www.fellesdatakatalog.digdir.no/api\" }' -H " \
@@ -94,7 +88,6 @@ def update_mock_data(ctx):
     info_models_curl = f" curl -I -X GET {mock_url}/informationmodels?aggregations=orgPath"
 
     ctx.run("docker-compose up -d")
-    time.sleep(3)
     breakpoint()
     ctx.run(start_recording_curl)
     breakpoint()

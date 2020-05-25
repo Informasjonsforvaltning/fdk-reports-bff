@@ -12,3 +12,6 @@ services:
         - "8000:8000"
       depends_on:
         - servicesmock
+      environment:
+        - HOST_URL=http://localhost
+        - HOST_PORT=8000

@@ -5,7 +5,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 
-from src.endpoints import Ping, Ready
+from src.endpoints import Ping, Ready, InformationModelsReport, ConceptsReport, DataSetsReport, DataServicesReport
 
 
 def create_app(test_config=None):
@@ -30,5 +30,8 @@ def create_app(test_config=None):
     api = Api(app)
     api.add_resource(Ready, "/ready")
     api.add_resource(Ping, '/ping')
-
+    api.add_resource(InformationModelsReport, '/report/informationmodels')
+    api.add_resource(ConceptsReport, '/report/concepts')
+    api.add_resource(DataSetsReport, '/report/datasets')
+    api.add_resource(DataServicesReport, '/report/dataservices')
     return app

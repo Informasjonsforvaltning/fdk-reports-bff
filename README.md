@@ -31,11 +31,10 @@ options:
 --compose: start docker compose for testing before run
 --image: name of the image that should be tested. Defaults to digdir/fulltext-search:latest
 ```
-#### Updatingitg mock data
-``ìnvoke update-mock-data``
-
+#### Updating mock data
+1. ``ìnvoke update-mock-data`` <br>
 input `continue` at points where the execution stops
-
+2. update path to mock values in contract test [utils file](tests/contract/utils.py)
 ### Other invoke tasks
 ```
 build-image                 # build docker image
