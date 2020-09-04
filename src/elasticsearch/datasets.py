@@ -12,7 +12,7 @@ from src.service_requests import fetch_catalog_from_dataset_harvester, \
 from src.utils import FetchFromServiceException, ServiceKey
 
 
-def insert_datasets(cancel_method):
+def insert_datasets(success_status, failed_status):
     try:
         loop = asyncio.get_event_loop()
     except RuntimeError:
@@ -34,9 +34,10 @@ def insert_datasets(cancel_method):
                                                                   media_types=media_types,
                                                                   publishers=publishers))
         elasticsearch_ingest(index_key=ServiceKey.DATA_SETS, documents=prepared_docs)
+        return success_status
     except FetchFromServiceException as err:
         logging.error(err.reason)
-        cancel_method()
+        return failed_status
 
 
 async def prepare_documents(documents: dict, los_themes: List[dict], open_licenses, media_types, publishers) -> dict:

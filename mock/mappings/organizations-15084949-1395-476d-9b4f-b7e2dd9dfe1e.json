@@ -1,0 +1,32 @@
+{
+  "id" : "15084949-1395-476d-9b4f-b7e2dd9dfe1e",
+  "name" : "organizations",
+  "request" : {
+    "url" : "/organizations?name=HIDRASUND%20OG%20BJONEROA",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[]",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "application/json",
+      "Date" : "Fri, 04 Sep 2020 11:14:16 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "15084949-1395-476d-9b4f-b7e2dd9dfe1e",
+  "persistent" : true,
+  "scenarioName" : "scenario-7-organizations",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-7-organizations-2",
+  "insertionIndex" : 733
+}

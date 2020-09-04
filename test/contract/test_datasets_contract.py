@@ -26,23 +26,22 @@ class TestDatasetsReport:
 
     @pytest.mark.contract
     def test_report_filter_on_orgPath(self, wait_for_ready):
-        pytest.xfail("under development")
-
-        result = get(url=f"{dataset_report_url}?orgPath=/ANNET/RAMSUND OG ROGNAN REVISJON")
+        result = get(url=f"{dataset_report_url}?orgPath=/STAT/972417858/971040238")
         assert result.status_code == 200
         content = result.json()
-        assert content["totalObjects"] == 113
+        assert content["totalObjects"] == 110
         for org in content["catalogs"]:
-            assert "/ANNET/RAMSUND OG ROGNAN REVISJON" in org["key"]
+            exp_orgpath_parts = "/STAT/972417858/971040238".split("/")
+            for orgpath_part in org.get("key").split("/"):
+                assert orgpath_part in exp_orgpath_parts
 
     @pytest.mark.contract
     def test_time_series_has_correct_format(self, wait_for_ready):
-        pytest.xfail("under development")
         result = get(url=dataset_time_series_url)
         assert result.status_code == 200
         time_series = result.json()
-        assert time_series[0]["xAxis"] == "01.09.2011"
-        assert time_series[0]["yAxis"] == "12"
+        assert time_series[0]["xAxis"] == "01.08.2020"
+        assert time_series[0]["yAxis"] == 1251
         last_date = time_series[len(time_series) - 1]["xAxis"]
         dt = datetime.strptime(last_date, '%d.%m.%Y')
         now = datetime.now()

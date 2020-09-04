@@ -1,13 +1,13 @@
 {
-  "id" : "95f51d0b-f27b-4a23-8cae-8e52f9299fbc",
-  "name" : "organizations",
+  "id" : "3a533f29-49a0-4e1b-aab2-64643a71a5bf",
+  "name" : "organizations_orgpath_geonorge",
   "request" : {
-    "url" : "/organizations?name=HIDRASUND%20OG%20BJONEROA",
+    "url" : "/organizations/orgpath/GEONORGE",
     "method" : "GET"
   },
   "response" : {
     "status" : 200,
-    "body" : "[]",
+    "body" : "/ANNET/GEONORGE",
     "headers" : {
       "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
       "X-Content-Type-Options" : "nosniff",
@@ -17,13 +17,15 @@
       "Expires" : "0",
       "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
       "X-Frame-Options" : "DENY",
-      "Content-Type" : "application/json",
-      "Date" : "Wed, 19 Aug 2020 06:01:57 GMT",
+      "Content-Type" : "text/plain;charset=UTF-8",
+      "Date" : "Fri, 04 Sep 2020 11:14:17 GMT",
       "Via" : "1.1 google",
       "Alt-Svc" : "clear"
     }
   },
-  "uuid" : "95f51d0b-f27b-4a23-8cae-8e52f9299fbc",
+  "uuid" : "3a533f29-49a0-4e1b-aab2-64643a71a5bf",
   "persistent" : true,
-  "insertionIndex" : 14
+  "scenarioName" : "scenario-8-organizations-orgpath-GEONORGE",
+  "requiredScenarioState" : "scenario-8-organizations-orgpath-GEONORGE-3",
+  "insertionIndex" : 754
 }

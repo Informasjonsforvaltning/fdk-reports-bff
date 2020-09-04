@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from src.rdf_namespaces import ContentKeys
 
@@ -110,3 +111,8 @@ class BadOrgPathException(Exception):
 class NoOrganizationEntriesException(Exception):
     def __init__(self):
         self.reason = f"organization store is empty"
+
+
+class StartSchedulerError(Exception):
+    def __init__(self, hosts=List[dict]):
+        self.message = f"Failed to contact ElasticSearch when attempting to start scheduler.\n hosts: {hosts} "

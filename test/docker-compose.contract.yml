@@ -25,12 +25,12 @@ services:
         - servicesmock
         - elasticsearch
       environment:
-        - ORGANIZATION_CATALOG_URL=https://organization-catalogue.fellesdatakatalog.digdir.no
+        - ORGANIZATION_CATALOG_URL=http://servicesmock:8080
         - CONCEPT_HARVESTER_URL=http://servicesmock:8080/concepts
         - DATASET_HARVESTER_URL=http://servicesmock:8080
         - INFORMATIONMODELS_HARVESTER_URL=http://servicesmock:8080/informationmodels
-        - DATASERVICE_HARVESTER_URL=http://datasets.staging.fellesdatakatalog.digdir.no
-        - REFERENCE_DATA_URL=https://staging.fellesdatakatalog.digdir.no/reference-data/
-        - ELASTIC_HOST=elasticsearch
+        - DATASERVICE_HARVESTER_URL=http://servicesmock:8080
+        - REFERENCE_DATA_URL=http://servicesmock:8080/reference-data
+        - ELASTIC_HOST=http://elasticsearch
         - ELASTIC_PORT=9200
         - ELASTIC_TCP_PORT=9300

@@ -10,10 +10,11 @@ from test.unit_mock_data import mock_los_path_reference_response, mock_access_ri
 
 
 @pytest.fixture(scope="session")
-def wait_for_ready():
-    timeout = time.time() + 20
-    try:
-        while True:
+def wait_for_ready(connection_attempts=0):
+    timeout = time.time() + 60
+    attempts = 0
+    while True:
+        try:
             response = requests.get("http://localhost:8000/ready")
             if response.status_code == 200:
                 # wait for wiremock
@@ -24,8 +25,13 @@ def wait_for_ready():
                     'Test function setup: timed out while waiting for organization-bff, last response '
                     'was {0}'.format(response.status_code))
             time.sleep(1)
-    except (requests.exceptions.ConnectionError, ConnectionRefusedError, MaxRetryError, NewConnectionError):
-        pytest.fail('Test function setup: could not contact fdk-organization-bff')
+        except (requests.exceptions.ConnectionError, ConnectionRefusedError, MaxRetryError, NewConnectionError):
+            if attempts > 3:
+                pytest.fail('Test function setup: could not contact fdk-organization-bff')
+            else:
+                time.sleep(10)
+                attempts += 1
+                continue
 
 
 @pytest.fixture

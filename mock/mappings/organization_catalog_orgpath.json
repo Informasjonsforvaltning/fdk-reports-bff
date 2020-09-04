@@ -1,0 +1,28 @@
+{
+  "name" : "orgpath",
+  "request" : {
+    "urlPathPattern" : "/organizations/orgpath/([a-zA-Z\\s+]*)",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "/ANNET/DUMMY ORG",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "application/json",
+      "Date" : "Tue, 11 Aug 2020 13:17:18 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "6e7d1715-38a4-4f04-aa81-83fb33b65fd5",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

@@ -1,0 +1,32 @@
+{
+  "id" : "0d761df6-9437-44fe-b1fa-3062b0bb962d",
+  "name" : "organizations",
+  "request" : {
+    "url" : "/organizations?name=STATENS%20VEGVESEN",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"organizationId\":\"971032081\",\"norwegianRegistry\":\"https://data.brreg.no/enhetsregisteret/api/enheter/971032081\",\"internationalRegistry\":null,\"name\":\"STATENS VEGVESEN\",\"orgType\":\"ORGL\",\"orgPath\":\"/STAT/972417904/971032081\",\"subOrganizationOf\":\"972417904\",\"issued\":\"1995-02-20\",\"municipalityNumber\":\"0301\",\"industryCode\":\"84.130\",\"sectorCode\":\"6100\",\"prefLabel\":null,\"allowDelegatedRegistration\":null}]",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "application/json",
+      "Date" : "Fri, 04 Sep 2020 11:14:16 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "0d761df6-9437-44fe-b1fa-3062b0bb962d",
+  "persistent" : true,
+  "scenarioName" : "scenario-2-organizations",
+  "requiredScenarioState" : "scenario-2-organizations-27",
+  "newScenarioState" : "scenario-2-organizations-28",
+  "insertionIndex" : 681
+}

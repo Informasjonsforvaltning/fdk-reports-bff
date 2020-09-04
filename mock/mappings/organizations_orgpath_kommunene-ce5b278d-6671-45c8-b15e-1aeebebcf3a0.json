@@ -1,0 +1,32 @@
+{
+  "id" : "ce5b278d-6671-45c8-b15e-1aeebebcf3a0",
+  "name" : "organizations_orgpath_kommunene",
+  "request" : {
+    "url" : "/organizations/orgpath/KOMMUNENE",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "/ANNET/KOMMUNENE",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "text/plain;charset=UTF-8",
+      "Date" : "Fri, 04 Sep 2020 11:14:17 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "ce5b278d-6671-45c8-b15e-1aeebebcf3a0",
+  "persistent" : true,
+  "scenarioName" : "scenario-9-organizations-orgpath-KOMMUNENE",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-9-organizations-orgpath-KOMMUNENE-2",
+  "insertionIndex" : 746
+}

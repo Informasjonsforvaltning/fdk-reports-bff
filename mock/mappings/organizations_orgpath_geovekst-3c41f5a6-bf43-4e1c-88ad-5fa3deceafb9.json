@@ -1,0 +1,32 @@
+{
+  "id" : "3c41f5a6-bf43-4e1c-88ad-5fa3deceafb9",
+  "name" : "organizations_orgpath_geovekst",
+  "request" : {
+    "url" : "/organizations/orgpath/GEOVEKST",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "/ANNET/GEOVEKST",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "text/plain;charset=UTF-8",
+      "Date" : "Fri, 04 Sep 2020 11:14:16 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "3c41f5a6-bf43-4e1c-88ad-5fa3deceafb9",
+  "persistent" : true,
+  "scenarioName" : "scenario-6-organizations-orgpath-GEOVEKST",
+  "requiredScenarioState" : "scenario-6-organizations-orgpath-GEOVEKST-2",
+  "newScenarioState" : "scenario-6-organizations-orgpath-GEOVEKST-3",
+  "insertionIndex" : 725
+}

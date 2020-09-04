@@ -1,0 +1,29 @@
+{
+  "id" : "6de5a023-f396-40a9-b80c-8fa61f2045de",
+  "name" : "organizations_orgpath_norsk-institutt-for-kulturminneforskning",
+  "request" : {
+    "url" : "/organizations/orgpath/NORSK%20INSTITUTT%20FOR%20KULTURMINNEFORSKNING",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "/ANNET/NORSK INSTITUTT FOR KULTURMINNEFORSKNING",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "Content-Type" : "text/plain;charset=UTF-8",
+      "Date" : "Fri, 04 Sep 2020 11:14:17 GMT",
+      "Via" : "1.1 google",
+      "Alt-Svc" : "clear"
+    }
+  },
+  "uuid" : "6de5a023-f396-40a9-b80c-8fa61f2045de",
+  "persistent" : true,
+  "insertionIndex" : 755
+}

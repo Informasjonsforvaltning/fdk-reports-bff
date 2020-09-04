@@ -3,15 +3,12 @@ import logging
 import os
 import atexit
 from time import sleep
-
-import elasticsearch
 from apscheduler.schedulers.background import BackgroundScheduler
 
 import pytz
-from elasticsearch import NotFoundError, Elasticsearch
-from urllib3.exceptions import NewConnectionError
-
+from elasticsearch import NotFoundError, TransportError, ConnectionTimeout, ConnectionError, Elasticsearch
 from src.elasticsearch.datasets import insert_datasets
+from src.utils import StartSchedulerError
 
 ES_HOST = os.getenv('ELASTIC_HOST', 'localhost')
 ES_PORT = os.getenv('ELASTIC_PORT', '9200')
@@ -19,20 +16,33 @@ es_client = Elasticsearch([ES_HOST + ':' + ES_PORT])
 update_interval = 2 * 60 * 60
 
 
-def schedule_updates():
-    scheduler = BackgroundScheduler()
-    sleep(5)
-    if not Update.is_running():
-        Update.start_update()
-        scheduler.add_job(func=Update.start_update, trigger="interval", seconds=update_interval)
-        scheduler.start()
-        atexit.register(lambda: scheduler.shutdown())
-    return True
+def schedule_updates(connection_attempts=0):
+    if connection_attempts > 4:
+        raise StartSchedulerError(hosts=es_client.transport.hosts)
+    es_connection_ok = False
+    try:
+        es_client.cluster.health(wait_for_status="yellow")
+        es_connection_ok = True
+    except ConnectionError:
+        sleep(5)
+        schedule_updates(connection_attempts=connection_attempts + 1)
+    if es_connection_ok:
+        scheduler = BackgroundScheduler()
+        sleep(5)
+        if not Update.is_running():
+            Update.start_update()
+            scheduler.add_job(func=Update.start_update, trigger="interval", seconds=update_interval)
+            scheduler.start()
+            atexit.register(lambda: scheduler.shutdown())
+        return True
+    else:
+        return False
 
 
 class Update:
     IN_PROGRESS = "in progress"
     COMPLETED = "completed"
+    FAILED = "failed"
     ES_INDEX = "update"
 
     def __init__(self):
@@ -52,21 +62,26 @@ class Update:
                 if jobs_completed_for_intervall["hits"]["total"]["value"] > 0:
                     return False
         except NotFoundError:
+            logging.info("Initiating elasticsearch index: update")
             pass
-        except (elasticsearch.exceptions.ConnectionError, ConnectionRefusedError, NewConnectionError):
+        except (ConnectionError, ConnectionTimeout, TransportError, ConnectionRefusedError):
+            logging.warning("start_update in scheduler.py: connection error when attempting to contact elasticsearch")
             sleep(5)
             Update.start_update(connection_attempts + 1)
         result = es_client.index(index="updates", body=update.doc())
         doc_id = result["_id"]
-        insert_datasets(Update.cancel_update)
-        Update.complete_update(doc_id, update)
+        status = insert_datasets(success_status=Update.COMPLETED, failed_status=Update.FAILED)
+        Update.complete_update(doc_id, update, status)
 
     @staticmethod
-    def complete_update(doc_id, update_obj):
+    def complete_update(doc_id, update_obj, status):
         update_obj.end_time = Update.get_local_time()
-        update_obj.status = Update.COMPLETED
-        es_client.delete(index="updates", id=doc_id)
-        es_client.index(index="updates", body=update_obj.doc())
+        update_obj.status = status
+        try:
+            es_client.delete(index="updates", id=doc_id)
+            es_client.index(index="updates", body=update_obj.doc())
+        except (ConnectionError, ConnectionTimeout, TransportError, ConnectionRefusedError):
+            logging.warning("Elasticsearch complete_update: could not write to elasticsearch")
 
     @staticmethod
     def is_running(connection_attempts=0):
@@ -77,7 +92,7 @@ class Update:
             return jobs_in_progress["hits"]["total"]["value"] > 0
         except NotFoundError:
             return False
-        except (elasticsearch.exceptions.ConnectionError, ConnectionRefusedError, NewConnectionError):
+        except (ConnectionError, ConnectionTimeout, TransportError):
             logging.error(f"Connection error checking for jobs in progress. Attempts: {connection_attempts}")
             sleep(5)
             return Update.is_running(connection_attempts + 1)
@@ -96,20 +111,6 @@ class Update:
         local_tz = pytz.timezone('Europe/Oslo')
         return datetime.datetime.now(tz=local_tz)
 
-    @staticmethod
-    def scheduled() -> bool:
-        try:
-            es_client.search(index="updates", body=in_progress_query)
-            return True
-        except NotFoundError:
-            return False
-
-    @staticmethod
-    def cancel_update():
-        jobs_in_progress = es_client.search(index="updates", body=in_progress_query)
-        for job in jobs_in_progress["hits"]["hits"]:
-            es_client.delete(index="updates", id=job["_id"])
-
 
 in_progress_query = {
     "query": {
@@ -120,11 +121,22 @@ in_progress_query = {
 }
 updates_last_x_minutes_query = {
     "query": {
-        "range": {
-            "end_time": {
-                "time_zone": "+01:00",
-                "gte": f"now-{update_interval}s/s",
-                "lte": "now"
+        "bool": {
+            "must": [
+                {
+                    "range": {
+                        "end_time": {
+                            "time_zone": "+01:00",
+                            "gte": f"now-{update_interval}s/s",
+                            "lte": "now"
+                        }
+                    }
+                }
+            ],
+            "must_not": {
+                "term": {
+                    "status": "failed"
+                }
             }
         }
     }
