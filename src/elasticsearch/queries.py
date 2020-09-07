@@ -64,14 +64,25 @@ class AggregationQuery(Query):
     def __init__(self, report_type: ServiceKey, orgpath=None, theme=None, theme_profile=None,
                  organization_id=None):
         super().__init__()
-        self.aggregations = {EsMappings.ORG_PATH: {
-            "terms": {
-                "field": EsMappings.ORG_PATH,
-                "missing": "MISSING",
-                "size": 100000
+        self.aggregations = {
+            EsMappings.ORG_PATH: {
+                "terms": {
+                    "field": EsMappings.ORG_PATH,
+                    "missing": "MISSING",
+                    "size": 100000
+                }
+            },
+            ContentKeys.NEW_LAST_WEEK: get_last_x_days_filter(key=f"{EsMappings.RECORD}.{JSON_LD.DCT.issued}.value",
+                                                              days=7),
+            ContentKeys.CATALOGS: {
+                    "terms": {
+                        "field": f"{EsMappings.ORG_PATH}.keyword",
+                        "missing": "MISSING",
+                        "size": 100000
+                    }
             }
-        }, ContentKeys.NEW_LAST_WEEK: get_last_x_days_filter(key=f"{EsMappings.RECORD}.{JSON_LD.DCT.issued}.value",
-                                                             days=7)}
+
+        }
         if report_type == ServiceKey.DATA_SETS:
             self.__add_datasets_aggregation()
         self.query = None

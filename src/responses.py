@@ -5,10 +5,11 @@ from src.utils import ParsedDataPoint
 
 
 class Response:
-    def __init__(self, totalObjects, newLastWeek, catalogs: list):
+    def __init__(self, totalObjects, newLastWeek, catalogs: list, org_paths: list):
         self.totalObjects = totalObjects
         self.newLastWeek = newLastWeek
         self.catalogs = catalogs or []
+        self.orgPaths = org_paths or []
 
     def populate_from_es(self, es_result: dict) -> 'Response':
         self.totalObjects = es_result["page"]["totalElements"]
@@ -18,8 +19,8 @@ class Response:
 
 
 class InformationModelResponse(Response):
-    def __init__(self, totalObjects: int = None, newLastWeek: int = None, catalogs: list = None):
-        super().__init__(totalObjects, newLastWeek, catalogs)
+    def __init__(self, totalObjects: int = None, newLastWeek: int = None, catalogs: list = None, org_paths=None):
+        super().__init__(totalObjects, newLastWeek, catalogs, org_paths)
 
     @staticmethod
     def from_es(es_result: dict):
@@ -30,8 +31,8 @@ class InformationModelResponse(Response):
 
 class ConceptResponse(Response):
     def __init__(self, totalObjects: int = None, newLastWeek: int = None, catalogs: list = None,
-                 most_in_use: list = None):
-        super().__init__(totalObjects, newLastWeek, catalogs)
+                 most_in_use: list = None, org_paths=None):
+        super().__init__(totalObjects, newLastWeek, catalogs, org_paths)
         if most_in_use:
             self.mostInUse = most_in_use
 
@@ -64,11 +65,13 @@ class DataSetResponse(Response):
                  national_component: str,
                  with_subject: str,
                  catalogs: List[dict],
+                 org_paths: List[dict],
                  themes: List[dict],
                  access_rights: List[dict]):
         super().__init__(totalObjects=total,
                          newLastWeek=new_last_week,
                          catalogs=catalogs,
+                         org_paths=org_paths
                          )
 
         self.opendata = opendata

@@ -15,6 +15,7 @@ def test_get_datasets(mock_es_report, get_access_rights_mock):
     assert 1251 == int(result.totalObjects)
     assert 8 == int(result.nationalComponent)
     assert 4 == len(result.accessRights)
+    assert 5 == len(result.catalogs)
 
 
 mock_es_result = {
@@ -200,6 +201,31 @@ mock_es_result = {
                 }
             ]
         },
+        "catalogs": {
+            "buckets": [
+                {
+                    "key": "/ANNET/910298062",
+                    "doc_count": 642
+                },
+                {
+                    "key": "/STAT/972417858/971040238",
+                    "doc_count": 110
+                },
+                {
+                    "key": "/ANNET/910244132",
+                    "doc_count": 60
+                },
+                {
+                    "key": "/STAT/972417904/971032081",
+                    "doc_count": 54
+                },
+                {
+                    "key": "/ANNET/910258028",
+                    "doc_count": 12
+                }
+            ]
+        }
+        ,
         "opendata": {
             "doc_count": 331
         },

@@ -14,6 +14,7 @@ class TestDatasetsReport:
     def test_report_has_correct_format(self, wait_for_ready):
         result = get(url=dataset_report_url)
         assert result.status_code == 200
+        content = result.json()
         keys = result.json().keys()
         assert "totalObjects" in keys
         assert "newLastWeek" in keys
@@ -23,7 +24,15 @@ class TestDatasetsReport:
         assert "withSubject" in keys
         assert "accessRights" in keys
         assert "themesAndTopicsCount" in keys
-
+        assert "orgPaths" in keys
+        assert len(content.get("orgPaths")) > len(content.get("catalogs"))
+        assert content.get("totalObjects") == 1251
+        assert content.get("nationalComponent") > 0
+        assert content.get("opendata") > 0
+        assert len(content.get("catalogs")) > 0
+        assert content.get("withSubject") > 0
+        assert len(content.get("accessRights")) == 4
+        assert len(content.get("themesAndTopicsCount")) > 0
     @pytest.mark.contract
     def test_report_filter_on_orgPath(self, wait_for_ready):
         result = get(url=f"{dataset_report_url}?orgPath=/STAT/972417858/971040238")
