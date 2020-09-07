@@ -33,6 +33,7 @@ class TestDatasetsReport:
         assert content.get("withSubject") > 0
         assert len(content.get("accessRights")) == 4
         assert len(content.get("themesAndTopicsCount")) > 0
+
     @pytest.mark.contract
     def test_report_filter_on_orgPath(self, wait_for_ready):
         result = get(url=f"{dataset_report_url}?orgPath=/STAT/972417858/971040238")

@@ -1,5 +1,6 @@
 import pytest
 
+from src.elasticsearch.queries import EsMappings
 from src.rdf_namespaces import ContentKeys
 from src.responses import InformationModelResponse, ConceptResponse, TimeSeriesResponse
 from src.utils import ParsedDataPoint
@@ -104,13 +105,16 @@ def test_time_series_response():
         "key_as_string": "01.06.2020",
         "doc_count": 3
     }
-    parsed_series = [
-        ParsedDataPoint(es_bucket_november),
-        ParsedDataPoint(es_bucket_january),
-        ParsedDataPoint(es_bucket_april),
-        ParsedDataPoint(es_bucket_may),
-        ParsedDataPoint(es_bucket_june)
-    ]
+    parsed_series = {
+        "aggregations": {
+            EsMappings.TIME_SERIES: {
+                "buckets": [
+                    es_bucket_november, es_bucket_january, es_bucket_april, es_bucket_may,
+                    es_bucket_june
+                ]
+            }
+        }
+    }
     result = TimeSeriesResponse(parsed_series).json()
     assert len(result) == 11
     assert result[0][ContentKeys.TIME_SERIES_X_AXIS] == "01.11.2019"
@@ -122,10 +126,10 @@ def test_time_series_response():
     assert result[6][ContentKeys.TIME_SERIES_X_AXIS] == "01.05.2020"
     assert result[7][ContentKeys.TIME_SERIES_X_AXIS] == "01.06.2020"
     assert result[0][ContentKeys.TIME_SERIES_Y_AXIS] == 8
-    assert result[1][ContentKeys.TIME_SERIES_Y_AXIS] == 0
-    assert result[2][ContentKeys.TIME_SERIES_Y_AXIS] == 2
-    assert result[3][ContentKeys.TIME_SERIES_Y_AXIS] == 0
-    assert result[4][ContentKeys.TIME_SERIES_Y_AXIS] == 0
-    assert result[5][ContentKeys.TIME_SERIES_Y_AXIS] == 1
-    assert result[6][ContentKeys.TIME_SERIES_Y_AXIS] == 1
-    assert result[7][ContentKeys.TIME_SERIES_Y_AXIS] == 3
+    assert result[1][ContentKeys.TIME_SERIES_Y_AXIS] == 8
+    assert result[2][ContentKeys.TIME_SERIES_Y_AXIS] == 10
+    assert result[3][ContentKeys.TIME_SERIES_Y_AXIS] == 10
+    assert result[4][ContentKeys.TIME_SERIES_Y_AXIS] == 10
+    assert result[5][ContentKeys.TIME_SERIES_Y_AXIS] == 11
+    assert result[6][ContentKeys.TIME_SERIES_Y_AXIS] == 12
+    assert result[7][ContentKeys.TIME_SERIES_Y_AXIS] == 15

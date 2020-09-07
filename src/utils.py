@@ -32,13 +32,13 @@ NATIONAL_REGISTRY_PATTERN = "data.brreg.no/enhetsregisteret"
 
 
 class ParsedDataPoint:
-    def __init__(self, es_bucket=None, month=None, year=None):
+    def __init__(self, es_bucket=None, month=None, year=None, last_month_count=0):
         if es_bucket is not None:
-            self.y_axis = es_bucket["doc_count"]
+            self.y_axis = es_bucket["doc_count"] + last_month_count
             self.x_axis = es_bucket["key_as_string"]
             self.month, self.year = self.parse_date()
         else:
-            self.y_axis = 0
+            self.y_axis = last_month_count
             if month < 10:
                 self.x_axis = f"01.0{month}.{year}"
             else:
@@ -63,14 +63,14 @@ class ParsedDataPoint:
         if next_month == 13:
             next_month = 1
             next_year += 1
-        return ParsedDataPoint(month=next_month, year=next_year)
+        return ParsedDataPoint(month=next_month, year=next_year, last_month_count=self.y_axis)
 
     def __eq__(self, other: 'ParsedDataPoint'):
         return self.month == other.month and self.year == other.year
 
     @staticmethod
-    def from_date_time(date: datetime):
-        return ParsedDataPoint(month=date.month, year=date.year)
+    def from_date_time(date: datetime, last_data_point: 'ParsedDataPoint'):
+        return ParsedDataPoint(month=date.month, year=date.year, last_month_count=last_data_point.y_axis)
 
 
 class ThemeProfile:

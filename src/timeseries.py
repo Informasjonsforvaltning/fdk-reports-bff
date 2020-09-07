@@ -21,9 +21,7 @@ def get_dataset_time_series(org_path=None, theme=None, theme_profile=None, organ
                                                    theme=theme,
                                                    theme_profile=theme_profile,
                                                    organization_id=organization_id)
-    parsed_bucket = [ParsedDataPoint(data_point) for data_point in
-                     es_time_series["aggregations"][EsMappings.TIME_SERIES]["buckets"]]
-    return TimeSeriesResponse(parsed_bucket)
+    return TimeSeriesResponse(es_time_series)
 
 
 time_series_functions = {

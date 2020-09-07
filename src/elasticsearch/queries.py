@@ -6,6 +6,8 @@ from src.utils import ServiceKey, ThemeProfile
 
 
 class EsMappings:
+    BUCKETS = "buckets"
+    AGGREGATIONS = "aggregations"
     ORGANIZATION_ID = "orgId"
     TIME_SERIES = "timeseries"
     FORMAT = "formatCodes"

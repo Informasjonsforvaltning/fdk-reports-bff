@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List
 
+from src.elasticsearch.queries import EsMappings
 from src.utils import ParsedDataPoint
 
 
@@ -19,7 +20,8 @@ class Response:
 
 
 class InformationModelResponse(Response):
-    def __init__(self, totalObjects: int = None, newLastWeek: int = None, catalogs: list = None, org_paths=None):
+    def __init__(self, totalObjects: int = None, newLastWeek: int = None,
+                 catalogs: List[dict] = None, org_paths: List[dict] = None):
         super().__init__(totalObjects, newLastWeek, catalogs, org_paths)
 
     @staticmethod
@@ -92,12 +94,19 @@ class DataSetResponse(Response):
 
 
 class TimeSeriesResponse:
-    def __init__(self, parsed_data_points: ParsedDataPoint):
+    def __init__(self, es_time_series: List[dict]):
         self.time_series = []
         self.last_data_point: ParsedDataPoint = None
-        for data_point in parsed_data_points:
-            self.add(data_point)
+        self.parse_es_time_series(es_time_series=es_time_series)
         self.add_months_from_last_data_point_to_now()
+
+    def parse_es_time_series(self, es_time_series):
+        last_count = 0
+        time_buckets = es_time_series[EsMappings.AGGREGATIONS][EsMappings.TIME_SERIES][EsMappings.BUCKETS]
+        for time_bucket in time_buckets:
+            new_data_point = ParsedDataPoint(es_bucket=time_bucket, last_month_count=last_count)
+            last_count = new_data_point.y_axis
+            self.add(new_data_point)
 
     def add(self, parsed_entry):
         if len(self.time_series) == 0:
@@ -115,7 +124,7 @@ class TimeSeriesResponse:
             self.last_data_point = parsed_entry
 
     def add_months_from_last_data_point_to_now(self):
-        now_data_point = ParsedDataPoint.from_date_time(datetime.now())
+        now_data_point = ParsedDataPoint.from_date_time(datetime.now(), self.last_data_point)
         while self.last_data_point != now_data_point:
             next_month = self.last_data_point.get_next_month()
             self.time_series.append(next_month.response_dict())
