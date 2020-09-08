@@ -46,6 +46,17 @@ class TestDatasetsReport:
                 assert orgpath_part in exp_orgpath_parts
 
     @pytest.mark.contract
+    def test_organization_id_filter(self, wait_for_ready):
+        test_org_id = "950037687"
+        exp_org_path = ["/PRIVAT/950037687", "/PRIVAT"]
+        result = get(url=f"{dataset_report_url}?organizationId={test_org_id}")
+        assert result.status_code == 200
+        content = result.json()
+        assert len(content) > 0
+        for orgpath in content.get("orgPaths"):
+            assert orgpath["key"] in exp_org_path
+
+    @pytest.mark.contract
     def test_time_series_has_correct_format(self, wait_for_ready):
         result = get(url=dataset_time_series_url)
         assert result.status_code == 200
