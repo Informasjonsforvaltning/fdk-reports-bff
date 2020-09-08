@@ -57,6 +57,17 @@ class TestDatasetsReport:
             assert orgpath["key"] in exp_org_path
 
     @pytest.mark.contract
+    def test_theme_profile_los_path_filter(self, wait_for_ready):
+        accepted_paths = ["trafikk-og-transport", "trafikk-og-transport/mobilitetstilbud",
+                          "trafikk-og-transport/trafikkinformasjon",
+                          "trafikk-og-transport/veg-og-vegregulering", "trafikk-og-transport/yrkestransport"]
+        result = get(url=f"{dataset_report_url}?themeprofile=transport")
+        result_paths = result.json().get("themesAndTopicsCount")
+        assert len(result_paths) > 0
+        for path in result_paths:
+            assert path["key"] in accepted_paths
+
+    @pytest.mark.contract
     def test_time_series_has_correct_format(self, wait_for_ready):
         result = get(url=dataset_time_series_url)
         assert result.status_code == 200

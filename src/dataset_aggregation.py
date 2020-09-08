@@ -36,7 +36,8 @@ def create_dataset_report(orgpath, theme, theme_profile, organization_id):
         themes=get_es_aggregation(es_report, ContentKeys.LOS_PATH),
         with_subject=get_es_aggregation(es_report, ContentKeys.WITH_SUBJECT),
         access_rights=mapped_access_rights,
-        catalogs=get_es_aggregation(es_report, ContentKeys.CATALOGS)
+        catalogs=get_es_aggregation(es_report, ContentKeys.CATALOGS),
+        theme_profile=theme_profile
     )
 
 

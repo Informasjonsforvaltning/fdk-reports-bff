@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 
 from src.elasticsearch.queries import EsMappings
-from src.utils import ParsedDataPoint
+from src.utils import ParsedDataPoint, ThemeProfile
 
 
 class Response:
@@ -69,7 +69,8 @@ class DataSetResponse(Response):
                  catalogs: List[dict],
                  org_paths: List[dict],
                  themes: List[dict],
-                 access_rights: List[dict]):
+                 access_rights: List[dict],
+                 theme_profile=None):
         super().__init__(totalObjects=total,
                          newLastWeek=new_last_week,
                          catalogs=catalogs,
@@ -82,6 +83,14 @@ class DataSetResponse(Response):
         self.themesAndTopicsCount = themes or []
         self.formats = dist_formats or []
         self.accessRights = access_rights or []
+        if theme_profile is not None:
+            self.customize_for_theme_profile(theme_profile)
+
+    def customize_for_theme_profile(self, theme_profile: ThemeProfile):
+        if theme_profile == ThemeProfile.TRANSPORT:
+            theme_profile_themes = [theme for theme in self.themesAndTopicsCount if
+                                    theme.get("key") in ThemeProfile.TRANSPORT_THEMES]
+            self.themesAndTopicsCount = theme_profile_themes
 
     def json(self):
         serialized = self.__dict__

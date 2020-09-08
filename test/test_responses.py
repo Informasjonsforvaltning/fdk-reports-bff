@@ -2,8 +2,8 @@ import pytest
 
 from src.elasticsearch.queries import EsMappings
 from src.rdf_namespaces import ContentKeys
-from src.responses import InformationModelResponse, ConceptResponse, TimeSeriesResponse
-from src.utils import ParsedDataPoint
+from src.responses import InformationModelResponse, ConceptResponse, TimeSeriesResponse, DataSetResponse
+from src.utils import ThemeProfile
 from test.unit_mock_data import concepts_aggregation, concepts_in_use
 
 
@@ -133,3 +133,93 @@ def test_time_series_response():
     assert result[5][ContentKeys.TIME_SERIES_Y_AXIS] == 11
     assert result[6][ContentKeys.TIME_SERIES_Y_AXIS] == 12
     assert result[7][ContentKeys.TIME_SERIES_Y_AXIS] == 15
+
+
+@pytest.mark.unit
+def test_dataset_with_theme_profile():
+    result = DataSetResponse(
+        total=21,
+        catalogs=[
+            {
+                "key": "/STAT/912660680/970188290",
+                "count": 17
+            },
+            {
+                "key": "/STAT/972417904/874783242",
+                "count": 15
+            },
+            {
+                "key": "/KOMMUNE/958935420",
+                "count": 13
+            }
+        ],
+        org_paths=[
+            {
+            "key": "/STAT/912660680/970188290",
+            "count": 17
+        },
+            {
+                "key": "/STAT/972417904/874783242",
+                "count": 15
+            },
+            {
+                "key": "/KOMMUNE/958935420",
+                "count": 13
+            }
+        ],
+        access_rights=[],
+        themes=[
+            {
+                "key": "trafikk-og-transport",
+                "count": 112
+            },
+            {
+                "key": "familie-og-barn",
+                "count": 108
+            },
+            {
+                "key": "naring",
+                "count": 105
+            },
+            {
+                "key": "naring/landbruk",
+                "count": 98
+            },
+            {
+                "key": "bygg-og-eiendom",
+                "count": 97
+            },
+            {
+                "key": "bygg-og-eiendom",
+                "count": 97
+            },
+            {
+                "key": "trafikk-og-transport/mobilitetstilbud",
+                "count": 97
+            },
+            {
+                "key": "trafikk-og-transport/trafikkinformasjon",
+                "count": 97
+            },
+            {
+                "key": "trafikk-og-transport/veg-og-vegregulering",
+                "count": 97
+            },
+            {
+                "key": "trafikk-og-transport/yrkestransport",
+                "count": 97
+            }
+
+        ],
+        with_subject=19,
+        opendata=3,
+        new_last_week=1,
+        national_component=2,
+        dist_formats=[],
+        theme_profile=ThemeProfile.TRANSPORT
+    )
+
+    assert len(result.themesAndTopicsCount) == 4
+    assert len(result.catalogs) == 3
+    assert result.totalObjects == 21
+    assert result.withSubject == 19
