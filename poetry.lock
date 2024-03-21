@@ -66,18 +66,18 @@ zookeeper = ["kazoo"]
 
 [[package]]
 name = "asyncstdlib"
-version = "3.12.1"
+version = "3.12.2"
 description = "The missing async toolbox"
 optional = false
 python-versions = "~=3.8"
 files = [
-    {file = "asyncstdlib-3.12.1-py3-none-any.whl", hash = "sha256:505229adee430a0ad4643bf75a85486029d0b2a200b1919e9c95ae319063b6a6"},
-    {file = "asyncstdlib-3.12.1.tar.gz", hash = "sha256:d1f0d439cc9f3ada7c4656590ac145ebeb059b74d9ad1818653a1441b9b873a8"},
+    {file = "asyncstdlib-3.12.2-py3-none-any.whl", hash = "sha256:343b4ae330a76a8ed05fc83a03e2756dcaa7bede0cf4c7f0ba4aa7112feddec4"},
+    {file = "asyncstdlib-3.12.2.tar.gz", hash = "sha256:3fea1eef246b68022c5bbaf6661db59f640ef54dd05fa1d0ac987e49b86a5529"},
 ]
 
 [package.extras]
 doc = ["sphinx", "sphinxcontrib-trio"]
-test = ["black", "coverage", "flake8", "flake8-2020", "flake8-bugbear", "mypy", "pytest", "pytest-cov"]
+test = ["black", "coverage", "flake8", "flake8-2020", "flake8-bugbear", "mypy", "pytest", "pytest-cov", "typing-extensions"]
 
 [[package]]
 name = "attrs"
@@ -1894,4 +1894,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "2b66279f07edfb7e2df9ff4210012af88109198a2ea32563d8f2864cdb7d667c"
+content-hash = "d81702b16f18f03957fb596de4d1a7dde26c3aff993dcc5a555767ed4d60d3d4"
