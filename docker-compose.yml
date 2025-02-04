@@ -41,3 +41,4 @@ services:
         - ELASTIC_PORT=9200
         - ELASTIC_TCP_PORT=9300
         - API_KEY=my-api-key
+        - CORS_ORIGIN_PATTERNS=*
