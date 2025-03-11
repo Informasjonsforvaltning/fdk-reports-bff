@@ -148,8 +148,8 @@ def reduce_dataset(
     return reduced_dict
 
 
-def string_value_from_sparql_result(obj: Optional[dict]) -> str:
-    return obj["value"] if obj else None
+def string_value_from_sparql_result(obj: Optional[dict]) -> str | None:
+    return str(obj["value"]) if obj else None
 
 
 def bool_value_from_sparql_result(obj: Optional[dict]) -> bool:
