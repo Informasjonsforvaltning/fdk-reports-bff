@@ -12,7 +12,7 @@ jobs:
     uses: Informasjonsforvaltning/workflows/.github/workflows/build-push-nox.yaml@main
     with:
       app_name: fdk-reports-bff
-      python_version: '3.9'
+      python_version: '3.13'
       python_architecture: x64
       environment: prod
     secrets:
