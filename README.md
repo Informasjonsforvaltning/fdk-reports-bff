@@ -1,58 +1,76 @@
-# fdk-reports-bff
+# FDK Reports BFF
 
+This application provides an API for the reports pages on [data.norge.no](https://data.norge.no/reports).
 
-## Developing
-### Requirements
+For a broader understanding of the system’s context, refer to
+the [architecture documentation](https://github.com/Informasjonsforvaltning/architecture-documentation) wiki. For more
+specific context on this application, see the **Portal** subsystem section.
+
+## Getting Started
+
+These instructions will give you a copy of the project up and running on your local machine for development and testing
+purposes.
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- Python
 - [poetry](https://python-poetry.org/)
 - [nox](https://nox.thea.codes/en/stable/)
 - [nox-poetry](https://pypi.org/project/nox-poetry/)
 
-### Install software:
-```
-% pip install poetry==1.7.1
-% pip install nox==2023.4.22
-% pip install nox-poetry==1.0.3
-% poetry install
+### Running locally
+
+Clone the repository
+
+```sh
+git clone https://github.com/Informasjonsforvaltning/fdk-reports-bff.git
+cd fdk-reports-bff
 ```
 
-### Running the service locally
-```
-% docker-compose up -d
-% poetry shell
-% FLASK_APP=fdk_reports_bff FLASK_ENV=development flask run --port=5000
+Install packages
+```sh
+poetry install
 ```
 
-## Testing
+Start the application with CLI
+
+```sh
+docker-compose up -d
+poetry shell
+gunicorn --chdir src "fdk_organization_bff:create_app" --config=src/fdk_organization_bff/gunicorn_config.py --worker-class aiohttp.GunicornWebWorker
+```
+
+or start the application with Docker Compose
+
+```sh
+docker compose up -d
+```
+
+### API Documentation (OpenAPI)
+
+The API documentation is available at ```fdk-report-bff.yaml```.
+
 ### Running tests
-#### All tests
-```
-% nox
-```
 
-#### Unit tests
-```
-% nox -s unit_tests
-```
+#### with nox sessions
 
-#### Contract tests
-```
-% nox -s contract_tests
+Run default sessions:
+
+```sh
+nox
 ```
 
-### FetchServiceException when updating data
- 1. Check if mock server is running:  `GET /http://localhost:8080/organizations`  
- 2. If no response restart containers
+Run specific session:
 
-For other mock data issues see [mock_data.md in readme resources](readme_resources/mock_data.md)
-
-### ConnectionError etc. when updating data
-1. Check if elasticsearch is running and available `GET http://localhost:9200/`
-2. If no response restart containers
-
-### ElasticSearch: no indexed data
-
-`To manually update data, post request:`
-
+```sh
+nox -s unit_tests
+nox -s contract_tests
 ```
-http://localhost:5000/updates?ignore_previous=true
+
+#### outside nox sessions
+
+```sh
+poetry run pytest
 ```
