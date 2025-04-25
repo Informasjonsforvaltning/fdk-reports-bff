@@ -153,3 +153,4 @@ requirements.txt
 
 mock/mappings/.DS_Store
 .flooignore
+.DS_Store
