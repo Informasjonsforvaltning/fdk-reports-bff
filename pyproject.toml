@@ -6,8 +6,8 @@ authors = ["NilsOveTen <nils.ove.tendenes@digdir.no>"]
 
 [tool.poetry.dependencies]
 python = "^3.13.2"
-flask = "^3.1.0"
-flask-cors = "^5.0.1"
+flask = "^3.1.1"
+flask-cors = "^6.0.0"
 flask-restful = "^0.3.10"
 python-dotenv = "^1.1.0"
 requests = "^2.32.3"
@@ -21,19 +21,19 @@ python-json-logger = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "8.3.5"
-pytest-mock = "3.14.0"
+pytest-mock = "3.14.1"
 mock = "5.2.0"
 isort = "6.0.1"
 black = "^25.1.0"
 flake8 = "^7.2.0"
-pep8-naming = "^0.14.1"
+pep8-naming = "^0.15.1"
 flake8-import-order = "^0.18.2"
 flake8-bandit = "^4.1.1"
 flake8-bugbear = "^24.12.12"
 flake8-annotations = "^3.1.1"
-mypy = "1.15.0"
-pytest-docker = "^3.2.0"
-pytest-cov = "^6.0.0"
+mypy = "1.16.0"
+pytest-docker = "^3.2.2"
+pytest-cov = "^6.1.1"
 
 [tool.coverage.paths]
 source = ["src"]
