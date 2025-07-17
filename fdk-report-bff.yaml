@@ -22,21 +22,20 @@ paths:
       operationId: get-ready
       responses:
         '200':
-          description: OK if service is runnning and can contact other services
+          description: OK if service is running and can contact other services
         '503':
           description: Temporarily unavailable. Returned if fdk-organization-bff can not contact other services
   /ping:
     get:
-      summary: ping endpoint for application fidders from ready in that is does not check if other servies are contactable
+      summary: ping endpoint for application
       operationId: ping
       responses:
         '200':
-          description: OK if service is runnning
+          description: OK if service is running
   '/report/{contentType}':
     get:
       operationId: getReportForContentType
       summary: endpoint for report on specific contentType
-      description: ''
       responses:
         '200':
           description: OK
@@ -82,52 +81,6 @@ paths:
           type: string
         description: filter on organizationId from national registry
 
-  '/timeseries/{contentType}':
-    get:
-      operationId: getTimeSeriesReportForContentType
-      summary: endpoint for timeSeries report on specific contentType
-      description: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - $ref: '#/components/schemas/TimeSeriesReport'
-    parameters:
-      - schema:
-          type: string
-          enum:
-            - datasets
-            - concepts
-            - informationmodels
-            - dataservices
-        name: contentType
-        in: path
-        required: true
-      - in: query
-        name: orgPath
-        schema:
-          type: string
-        description: filter on fdk-org-path value
-      - in: query
-        name: themeprofile
-        schema:
-          type: string
-          enum:
-            - transport
-        description: filter on content for themed page
-      - in: query
-        name: theme
-        schema:
-          type: string
-        description: filter on los themes by fdk-los-paths
-      - in: query
-        name: organizationId
-        schema:
-          type: string
-        description: filter on organizationId from national registry
 components:
   schemas:
     Report:
@@ -135,17 +88,22 @@ components:
       type: object
       properties:
         totalObjects:
-          type: string
+          type: number
         newLastWeek:
-          type: string
+          type: number
         orgPaths:
           description: Count objects for each catalog aggregated on org paths
           type: array
-            items:
-              $ref: '#/components/schemas/KeyWithCountObject'
+          items:
+            $ref: '#/components/schemas/KeyWithCountObject'
         organizationCount:
-          type: int
+          type: number
           description: Number of organizations with datasets in Felles Datakatlaog
+        catalogs:
+          description: Count objects of each catalog
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogCountObject'
     InformationModelsReport:
       title: InformationModelReport
       allOf:
@@ -159,16 +117,7 @@ components:
             mostInUse:
               type: array
               items:
-                $ref: ''
-    Reference:
-      title: Reference
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/LanguageObject'
-        uri:
-          type: string
-          format: uri
+                $ref: '#/components/schemas/KeyWithCountObject'
     LanguageObject:
       type: object
       properties:
@@ -179,14 +128,6 @@ components:
         'no':
           type: string
         en:
-          type: string
-    Catalog:
-      title: Organizations
-      type: object
-      properties:
-        count:
-          type: integer
-        orgPath:
           type: string
     DataSetsReport:
       title: DataSetsReport
@@ -215,38 +156,15 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/KeyWithCountObject'
-            catalogs:
-              description: Count objects of each catalog
-              type: array
-              items:
-                $ref: '#/components/schemas/KeyWithCountObject'
     DataServicesReport:
       title: DataServiceReport
       allOf:
         - $ref: '#/components/schemas/Report'
         - properties:
-            nationalComponent:
-              type: number
-              format: float
-            openLicence:
-              $ref: '#/components/schemas/PrepositionCountObject'
-            openAccess:
-              $ref: '#/components/schemas/PrepositionCountObject'
-            freeUsage:
-              $ref: '#/components/schemas/PrepositionCountObject'
             formats:
               type: array
               items:
                 $ref: '#/components/schemas/KeyWithCountObject'
-      description: ''
-      type: object
-    TimeSeriesReport:
-      title: TimeSeriesReport
-      properties:
-        timeSeries:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataPoint'
       description: ''
       type: object
     KeyWithCountObject:
@@ -257,6 +175,14 @@ components:
         count:
           type: number
           format: float
+    CatalogCountObject:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/LanguageObject'
+        count:
+          type: number
+          format: float
     PrepositionCountObject:
       type: object
       properties:
@@ -264,29 +190,5 @@ components:
           type: number
           format: float
         without:
-          type: number
-          format: float
-    OrganizationReport:
-      title: OrganizationReport
-      type: object
-      properties:
-        orgPath:
-          type: string
-        name:
-          $ref: '#/components/schemas/LanguageObject'
-        concepts:
-          $ref: '#/components/schemas/ConceptsReport'
-        informationmodels:
-          $ref: '#/components/schemas/InformationModelsReport'
-        datasets:
-          $ref: '#/components/schemas/DataSetsReport'
-        dataservices:
-          $ref: '#/components/schemas/DataServicesReport'
-    DataPoint:
-      type: object
-      properties:
-        xAxis:
-          type: string
-        yAxis:
           type: number
           format: float
