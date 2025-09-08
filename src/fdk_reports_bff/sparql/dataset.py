@@ -7,7 +7,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX fdk: <https://raw.githubusercontent.com/Informasjonsforvaltning/fdk-reasoning-service/main/src/main/resources/ontology/fdk.owl#>
 PREFIX br: <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#>
 SELECT DISTINCT ?dataset ?record ?theme ?accessRights ?provenance ?subject ?isOpenData ?transportportal
-WHERE {
+WHERE { GRAPH ?g {
   ?dataset a dcat:Dataset .
   ?record foaf:primaryTopic ?dataset .
   ?record a dcat:CatalogRecord .
@@ -18,7 +18,7 @@ WHERE {
   OPTIONAL { ?dataset dct:subject ?subject . }
   OPTIONAL { ?dataset fdk:isOpenData ?isOpenData . }
   OPTIONAL { ?dataset fdk:isRelatedToTransportportal ?transportportal . }
-}"""
+}}"""
 
 
 def get_dataset_catalogs_query() -> str:
@@ -30,7 +30,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX fdk: <https://raw.githubusercontent.com/Informasjonsforvaltning/fdk-reasoning-service/main/src/main/resources/ontology/fdk.owl#>
 PREFIX br: <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#>
 SELECT DISTINCT ?dataset ?record ?catalog ?catalogTitle
-WHERE {
+WHERE { GRAPH ?g {
   ?dataset a dcat:Dataset .
   ?record foaf:primaryTopic ?dataset .
   ?record a dcat:CatalogRecord .
@@ -38,7 +38,7 @@ WHERE {
   ?record dct:isPartOf ?catalogRecord .
   ?catalogRecord foaf:primaryTopic ?catalog .
   OPTIONAL { ?catalog dct:title ?catalogTitle . }
-}"""
+}}"""
 
 
 def get_dataset_distributions_query() -> str:
@@ -50,7 +50,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX fdk: <https://raw.githubusercontent.com/Informasjonsforvaltning/fdk-reasoning-service/main/src/main/resources/ontology/fdk.owl#>
 PREFIX br: <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#>
 SELECT DISTINCT ?dataset ?record ?mediaType ?format
-WHERE {
+WHERE { GRAPH ?g {
   ?dataset a dcat:Dataset .
   ?record foaf:primaryTopic ?dataset .
   ?record a dcat:CatalogRecord .
@@ -58,7 +58,7 @@ WHERE {
   ?dataset dcat:distribution ?distribution .
   OPTIONAL { ?distribution dcat:mediaType ?mediaType . }
   OPTIONAL { ?distribution dct:format ?format . }
-}"""
+}}"""
 
 
 def get_dataset_publishers_query() -> str:
@@ -70,7 +70,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX fdk: <https://raw.githubusercontent.com/Informasjonsforvaltning/fdk-reasoning-service/main/src/main/resources/ontology/fdk.owl#>
 PREFIX br: <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#>
 SELECT DISTINCT ?dataset ?record ?publisher ?orgId ?orgPath
-WHERE {
+WHERE { GRAPH ?g {
   ?dataset a dcat:Dataset .
   ?record foaf:primaryTopic ?dataset .
   ?record a dcat:CatalogRecord .
@@ -78,4 +78,4 @@ WHERE {
   ?dataset dct:publisher ?publisher .
   OPTIONAL { ?publisher dct:identifier ?orgId . }
   OPTIONAL { ?publisher br:orgPath ?orgPath . }
-}"""
+}}"""

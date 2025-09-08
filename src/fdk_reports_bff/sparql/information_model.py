@@ -6,7 +6,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX modelldcatno: <https://data.norge.no/vocabulary/modelldcatno#>
 PREFIX br: <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalog/main/src/main/resources/ontology/organization-catalog.owl#>
 SELECT DISTINCT ?record ?firstHarvested ?publisher ?orgId ?orgPath
-WHERE {
+WHERE { GRAPH ?g {
   ?informationmodel a modelldcatno:InformationModel .
   ?record foaf:primaryTopic ?informationmodel .
   ?record a dcat:CatalogRecord .
@@ -17,4 +17,4 @@ WHERE {
     ?publisher dct:identifier ?orgId .
     ?publisher br:orgPath ?orgPath .
   }
-}"""
+}}"""
