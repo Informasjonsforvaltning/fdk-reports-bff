@@ -1,5 +1,11 @@
 # FDK Reports BFF
 
+
+
+> ⚠️ This repository is archived
+> The functionality has been moved to [fdk-organization-bff](https://github.com/Informasjonsforvaltning/fdk-organization-bff).
+
+
 This application provides an API for the reports pages on [data.norge.no](https://data.norge.no/reports).
 
 For a broader understanding of the system’s context, refer to
